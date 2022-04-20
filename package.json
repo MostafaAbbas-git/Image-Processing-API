@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon --exec npx ts-node src/index.ts",
-    "start": "ts-node-dev src/index.ts",
+    "start": "node dist/index",
     "build": "npx tsc",
     "prettier": "prettier --config .prettierrc src/**/*.ts --write",
     "lint": "eslint . --ext .ts",

@@ -1,9 +1,9 @@
 import express from 'express';
 import { promises as fsPromises } from 'fs';
-import sharp, { OutputInfo } from 'sharp';
 import { getSharedIdempotencyService } from 'express-idempotency';
 import validateParams from '../../middleware/validateParams';
 import checkFiles from '../../middleware/checkFiles';
+import resizeImage from '../../utilities/processing';
 
 const images = express.Router();
 
@@ -26,32 +26,19 @@ images.get(
 
     try {
       // resize img using sharp
-      sharp(input)
-        .resize(width, height)
-        .toFile(output, async (err: Error, info: OutputInfo) => {
-          // throw any expected/unexpected error
-          if (err) throw err;
-          if (info.size > 0) {
-            // that means the output image is not empty
-            // display the resized image in the browser
-            await fsPromises
-              .readFile(output)
-              .then((data) => {
-                // send the data with correct headers
-                res.writeHead(200, { 'Content-Type': 'image/jpg' });
-                res.end(data);
-              })
-              .catch((err) => {
-                return res.send(err);
-              });
-          } else {
-            return res
-              .status(500)
-              .send('Error occured. Resized image is corrupted.');
-          }
+      const result = await resizeImage(input, output, width, height);
+      await fsPromises
+        .readFile(result)
+        .then((resizedImg) => {
+          // send the data with correct headers
+          res.writeHead(200, { 'Content-Type': 'image/jpg' });
+          res.end(resizedImg);
+        })
+        .catch((err) => {
+          return res.send(err);
         });
     } catch (err) {
-      return res.send(err);
+      return res.status(500).send(err);
     }
   }
 );

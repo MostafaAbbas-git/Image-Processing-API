@@ -23,35 +23,42 @@ This is a simple image processing api that resizes any given image to a specifie
    npm install
    ```
 
-2. Build the project first
+## Run Scripts
 
-   ```sh
-   npm run build
-   ```
+- Build the project
 
-3. Run the project
+  ```sh
+  npm run build
+  ```
 
-   ```sh
-   node dist/index
-   ```
+- Run the project
 
-4. Run tests\
-    _PS:_ Running this scipt will build the project first, and then it will run jasmine test script.
-   ```sh
-   npm run test
-   ```
-   **PS**: If you encounter an error when running for the first time, make sure that 'thumb' directory under 'assets' directory is not empty. It's a simple trick, yet very effective. Just put any image inside of it.
+  ```sh
+  npm run start
+  or
+  node dist/index.js
+  ```
+
+  **PS**: If you encounter an error when running for the first time, make sure that 'thumb' directory under 'assets' directory is not empty. It's a simple trick, yet very effective. Just put any image inside of it.
+  <br><br/>
+
+- Run tests\
+   _PS:_ Running this scipt will build the project first, and then it will run jasmine test script.
+  ```sh
+  npm run test
+  ```
 
 ---
 
 ## Endpoints
 
-- http://localhost:3000/api/images
-  <br>
-- to run a test query you can use the following url:
+- HomePage: http://localhost:3000/api
 
+- Processing images: http://localhost:3000/api/images
+
+- Required query parameters:
   ```sh
-  http://localhost:3000/api/images?filename=palmtunnel&width=200&height=200
+  api/images?filename={image_name}&width={new_width}&height={new_height}
   ```
 
 ## Author
