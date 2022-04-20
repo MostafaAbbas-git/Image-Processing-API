@@ -42,7 +42,7 @@ images.get(
                 res.end(data);
               })
               .catch((err) => {
-                console.log(err);
+                return res.send(err);
               });
           } else {
             return res
@@ -50,8 +50,8 @@ images.get(
               .send('Error occured. Resized image is corrupted.');
           }
         });
-    } catch (error) {
-      console.error(error);
+    } catch (err) {
+      return res.send(err);
     }
   }
 );
