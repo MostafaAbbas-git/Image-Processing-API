@@ -6,8 +6,8 @@ This is a simple image processing api that resizes any given image to a specifie
 
 - [Toolbox](#toolbox)
 - [Setting Up the Environment](#setting-up-the-environment)
-- [Working Demo of the System](#working-demo-of-the-system)
-- [Our Team](#our-team)
+- [Endpoints ](#endpoints)
+- [Author](#Author)
 - [About](#about)
 
 ## Toolbox
@@ -40,6 +40,16 @@ This is a simple image processing api that resizes any given image to a specifie
    ```sh
    npm run test
    ```
+
+## Endpoints
+
+- http://localhost:3000/api/images
+  <br>
+- to run a test query you can use the following url:
+
+  ```sh
+  http://localhost:3000/api/images?filename=palmtunnel&width=200&height=200
+  ```
 
 ## Author
 
