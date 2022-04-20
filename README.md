@@ -36,10 +36,13 @@ This is a simple image processing api that resizes any given image to a specifie
    ```
 
 4. Run tests\
-   _PS:_ Running this scipt will build the project first, and then it will run jasmine test script.
+    _PS:_ Running this scipt will build the project first, and then it will run jasmine test script.
    ```sh
    npm run test
    ```
+   **PS**: If you encounter an error when running for the first time, make sure that 'thumb' directory under 'assets' directory is not empty. It's a simple trick, yet very effective. Just put any image inside of it.
+
+---
 
 ## Endpoints
 
