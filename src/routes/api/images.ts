@@ -1,5 +1,5 @@
 import express from 'express';
-import { promises as fsPromises } from 'fs';
+import fs, { promises as fsPromises } from 'fs';
 import { getSharedIdempotencyService } from 'express-idempotency';
 import validateParams from '../../middleware/validateParams';
 import checkFiles from '../../middleware/checkFiles';
@@ -21,12 +21,39 @@ images.get(
     const width = Number(req.query.width);
     const height = Number(req.query.height);
 
-    const input = `assets/full/${filename}.jpg`;
-    const output = `assets/thumb/${filename}_thumb.jpg`;
+    // directory to check if exists
+    const outputDir = 'assets/thumb';
+
+    // check if directory exists
+    fs.access(outputDir, (errorNotFound) => {
+      // if it does not exist, create it
+      if (errorNotFound) {
+        fs.mkdir(outputDir, function (err) {
+          if (err) {
+            return res.send(err);
+          }
+        });
+      }
+    });
+
+    const inputImgPath = `assets/full/${filename}.jpg`;
+    const outputImgPath = `${outputDir}/${filename}_${width}_${height}_thumb.jpg`;
 
     try {
+      // check for chached image
+      if (fs.existsSync(outputImgPath)) {
+        // 304: Not Modified
+        res.status(304).sendFile(outputImgPath, { root: '.' });
+        return;
+      }
+
       // resize img using sharp
-      const result = await resizeImage(input, output, width, height);
+      const result = await resizeImage(
+        inputImgPath,
+        outputImgPath,
+        width,
+        height
+      );
       await fsPromises
         .readFile(result)
         .then((resizedImg) => {
