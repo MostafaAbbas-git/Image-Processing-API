@@ -4,7 +4,7 @@ function validateParams(
   req: express.Request,
   res: express.Response,
   next: () => void
-) {
+): unknown {
   const filename = String(req.query.filename);
   const width = Number(req.query.width);
   const height = Number(req.query.height);

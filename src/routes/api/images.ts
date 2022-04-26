@@ -10,7 +10,7 @@ const images = express.Router();
 images.get(
   '/',
   [validateParams, checkFiles],
-  async (req: express.Request, res: express.Response) => {
+  async (req: express.Request, res: express.Response): Promise<void> => {
     // Check if there was a hit! (idempotency)
     const idempotencyService = getSharedIdempotencyService();
     if (idempotencyService.isHit(req)) {
@@ -43,8 +43,7 @@ images.get(
       // check for chached image
       if (fs.existsSync(outputImgPath)) {
         // 304: Not Modified
-        res.status(304).sendFile(outputImgPath, { root: '.' });
-        return;
+        return res.status(304).sendFile(outputImgPath, { root: '.' });
       }
 
       // resize img using sharp
@@ -65,7 +64,8 @@ images.get(
           return res.send(err);
         });
     } catch (err) {
-      return res.status(500).send(err);
+      res.status(500).send(err);
+      return;
     }
   }
 );
